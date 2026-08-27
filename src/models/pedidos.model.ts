@@ -28,8 +28,7 @@ export const crearPedido = async (data: {
   producto_id: number;
   cantidad: number;
 }): Promise<Pedido> => {
-  // BUG: el metodo se llama "query", no "qeury".
-  const result = await pool.qeury(
+  const result = await pool.query(
     "INSERT INTO pedidos (cliente_id, producto_id, cantidad) VALUES ($1, $2, $3) RETURNING *",
     [data.cliente_id, data.producto_id, data.cantidad]
   );
@@ -56,6 +55,6 @@ export const actualizarPedido = async (
 
 export const eliminarPedido = async (id: number): Promise<boolean> => {
   // BUG: la tabla se llama "pedidos", no "pedido".
-  const result = await pool.query("DELETE FROM pedido WHERE id = $1", [id]);
+  const result = await pool.query("DELETE FROM pedidos WHERE id = $1", [id]);
   return (result.rowCount ?? 0) > 0;
 };

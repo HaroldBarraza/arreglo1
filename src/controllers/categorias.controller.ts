@@ -9,14 +9,15 @@ import {
 import { validate } from "../middlewares/validate.js";
 import { categoriaSchema, actualizarCategoriaSchema } from "../schemas/categorias.schema.js";
 
+
 export const categoriasRouter = Router();
 
 categoriasRouter.get("/", async (req, res, next) => {
   try {
     const categorias = await obtenerCategorias();
     res.json(categorias);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -29,18 +30,18 @@ categoriasRouter.get("/:id", async (req, res, next) => {
       return;
     }
     res.json(categoria);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
 categoriasRouter.post("/", validate(categoriaSchema), async (req, res, next) => {
   try {
     // BUG: la funcion importada se llama "crearCategoria", no "crearCategoira".
-    const nuevaCategoria = await crearCategoira(req.body);
+    const nuevaCategoria = await crearCategoria(req.body);
     res.status(201).json(nuevaCategoria);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -53,8 +54,8 @@ categoriasRouter.put("/:id", validate(actualizarCategoriaSchema), async (req, re
       return;
     }
     res.json(categoria);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -67,7 +68,7 @@ categoriasRouter.delete("/:id", async (req, res, next) => {
       return;
     }
     res.json({ message: "Categoria eliminada" });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
