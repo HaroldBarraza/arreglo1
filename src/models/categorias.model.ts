@@ -8,7 +8,7 @@ export interface Categoria {
 
 export const obtenerCategorias = async (): Promise<Categoria[]> => {
   // BUG: la tabla se llama "categorias", no "categoria".
-  const result = await pool.query("SELECT * FROM categoria ORDER BY id");
+  const result = await pool.query("SELECT * FROM categorias ORDER BY id");
   return result.rows;
 };
 
@@ -37,10 +37,10 @@ export const actualizarCategoria = async (
 
   // BUG: los valores se mandan en un orden distinto al de los placeholders,
   // asi que nombre y descripcion terminan intercambiados en la base de datos.
-  const result = await pool.query(
-    "UPDATE categorias SET nombre = $1, descripcion = $2 WHERE id = $3 RETURNING *",
-    [descripcion, nombre, id]
-  );
+const result = await pool.query(
+  "UPDATE categorias SET nombre = $1, descripcion = $2 WHERE id = $3 RETURNING *",
+  [nombre, descripcion, id]
+);
   return result.rows[0];
 };
 
