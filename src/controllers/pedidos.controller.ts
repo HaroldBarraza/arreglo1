@@ -21,6 +21,16 @@ pedidosRouter.get("/", async (req, res, next) => {
   }
 });
 
+pedidosRouter.get("/cliente/:clienteId", async (req, res, next) => {
+  try {
+    const clienteId = Number(req.params.clienteId);
+    const pedidos = await obtenerPedidosPorCliente(clienteId);
+    res.json(pedidos);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // BUG: esta ruta esta antes que "/cliente/:clienteId", asi que Express
 // hace match aqui primero y "cliente" termina tratado como si fuera un :id.
 pedidosRouter.get("/:id", async (req, res, next) => {
@@ -37,15 +47,7 @@ pedidosRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-pedidosRouter.get("/cliente/:clienteId", async (req, res, next) => {
-  try {
-    const clienteId = Number(req.params.clienteId);
-    const pedidos = await obtenerPedidosPorCliente(clienteId);
-    res.json(pedidos);
-  } catch (err) {
-    next(err);
-  }
-});
+
 
 pedidosRouter.post("/", validate(pedidoSchema), async (req, res, next) => {
   try {
@@ -60,7 +62,7 @@ pedidosRouter.put("/:id", validate(actualizarPedidoSchema), async (req, res, nex
   try {
     const id = Number(req.params.id);
     // BUG: la funcion importada se llama "actualizarPedido", no "actualizarPedidos".
-    const pedido = await actualizarPedidos(id, req.body);
+    const pedido = await actualizarPedido(id, req.body);
     if (!pedido) {
       res.status(404).json({ error: "Pedido no encontrado" });
       return;
