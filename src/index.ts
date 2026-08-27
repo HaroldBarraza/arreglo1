@@ -26,7 +26,10 @@ app.use("/api/clientes", clientesRouter);
 app.use("/api/pedidos", pedidosRouter);
 
 app.get("/", (req, res) => {
-  res.json({ mensaje: "Bienvenido a la API de La Super Tiendita de Kevin. Ve a /api-docs" });
+  res.json({
+    mensaje:
+      "Bienvenido a la API de La Super Tiendita de Kevin. Ve a /api-docs",
+  });
 });
 
 app.use(errorHandler);
